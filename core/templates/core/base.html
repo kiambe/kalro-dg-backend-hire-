@@ -1,0 +1,94 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Digital Green Ecommerce</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+        <script src="{% static 'js/main.js' %}"></script>
+    </head>
+
+    <body>
+        <div >
+           
+            
+                <p class="is-size-3 mb-3" ><centre><a href="/" ><strong>Ecommerce</strong></a></centre></p>
+          
+        </div>
+
+        <nav class="navbar is-green">
+            <div class="navbar-brand">
+                
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="main-navbar">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div class="navbar-menu" id="main-navbar">
+                <div class="navbar-start">
+                    <div class="navbar-item">
+                        <form method="get" action="{% url 'search' %}">
+                            <div class="field has-addons">
+                                <div class="control">
+                                    <input type="text" size="90%" class="input" placeholder="Search product" name="query">
+                                </div>
+                                <div class="control">
+                                    <button class="button  ">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+              
+            </div>
+        
+            <div class="navbar-menu" >
+           
+
+                <div class="navbar-end">
+                    {% for category in menu_categories %}
+                        <a href="{% url 'category' category.slug %}" class="navbar-item">{{ category.title }}</a>
+                    {% endfor %}
+
+                    <div class="navbar-item">
+                        <a href="{% url 'cart' %}" class="button is-dark">Cart{% if cart %} ({{ cart|length }}){% endif %}</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <section class="section">
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </section>
+        
+        <footer class="footer">
+            
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'vendor_admin' %}">Sales Agent Admin</a> &nbsp; |
+            {% else %}
+                <a href="{% url 'become_vendor' %}">Become A Sales Agent</a> &nbsp; |
+            {% endif %}
+            <a href="{% url 'vendors' %}">List of Sales Agents</a> &nbsp; |
+            <a href="{% url 'clogin' %}">Customer Login</a>
+
+            <p >&copy;2022: Copyright Digital Green - KALRO</p>
+        
+        </footer>
+
+        {% block scripts %}
+        {% endblock %}
+    </body>
+</html>
